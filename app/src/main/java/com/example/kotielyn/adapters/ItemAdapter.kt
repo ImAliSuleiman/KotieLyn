@@ -12,8 +12,17 @@ import kotlinx.android.synthetic.main.item_list_home.view.*
 class ItemAdapter(private val items: ArrayList<String>, private val context: Context) :
     RecyclerView.Adapter<ItemAdapter.ViewHolder>() {
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    var onItemClick: ((String) -> Unit)? = null
+
+    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val textName: TextView = itemView.textName
+
+        init {
+            itemView.setOnClickListener {
+                onItemClick?.invoke(items[adapterPosition]);
+            }
+        }
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -35,7 +44,7 @@ class ItemAdapter(private val items: ArrayList<String>, private val context: Con
         return items.size
     }
 
-    class ItemLister(val clickListener: (itemId: Long) -> Unit) {
-        fun onClick(item: String, id: Long) = clickListener(id)
-    }
+//    class ItemLister(val clickListener: (itemId: Long) -> Unit) {
+//        fun onClick(item: String, id: Long) = clickListener(id)
+//    }
 }

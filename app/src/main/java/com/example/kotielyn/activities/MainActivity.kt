@@ -11,7 +11,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
-    val items: ArrayList<String> = ArrayList()
+    private val items: ArrayList<String> = ArrayList()
     private val TAG: String = MainActivity::class.java.simpleName;
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,9 +20,17 @@ class MainActivity : AppCompatActivity() {
 
         Log.d(TAG, "onCreate")
 
+        // Set manager
         recyclerView.layoutManager = LinearLayoutManager(this)
         // recyclerView.layoutManager = GridLayoutManager(this, 2)
-        recyclerView.adapter = ItemAdapter(items = items, context = this)
+
+        // Initialize adapter
+        val adapter: ItemAdapter = ItemAdapter(items = items, context = this)
+        adapter.onItemClick = { item ->
+            Log.d(TAG, "Clicked: $item")
+        }
+        // Set adapter
+        recyclerView.adapter = adapter
 
         populateItems()
     }
